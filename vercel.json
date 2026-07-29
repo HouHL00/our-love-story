@@ -1,0 +1,16 @@
+{
+  "name": "our-love-story",
+  "version": 2,
+  "builds": [
+    {
+      "src": "**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    }
+  ]
+}
