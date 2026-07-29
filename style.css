@@ -1,0 +1,1431 @@
+/* ========== 全局重置与基础 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #ff6b9d;
+    --primary-light: #ffaec7;
+    --primary-dark: #e8457a;
+    --secondary: #a06cd5;
+    --accent: #ffd93d;
+    --bg-dark: #1a0a1e;
+    --bg-card: rgba(255, 255, 255, 0.08);
+    --bg-card-hover: rgba(255, 255, 255, 0.15);
+    --text-main: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --text-light: rgba(255, 255, 255, 0.5);
+    --gradient-1: linear-gradient(135deg, #ff6b9d 0%, #a06cd5 100%);
+    --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-3: linear-gradient(135deg, #a06cd5 0%, #6c5ce7 100%);
+    --gradient-bg: linear-gradient(180deg, #1a0a1e 0%, #2d1b3d 40%, #1a0a2e 100%);
+    --shadow-glow: 0 0 40px rgba(255, 107, 157, 0.3);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --radius: 20px;
+    --radius-lg: 30px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--gradient-bg);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ========== 花瓣画布 ========== */
+#petalCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========== 导航栏 ========== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    background: rgba(26, 10, 30, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-heart {
+    font-size: 28px;
+    color: var(--primary);
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.logo-text {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 24px;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #fff;
+    background: rgba(255, 107, 157, 0.15);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: var(--gradient-1);
+    border-radius: 10px;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* ========== Hero 首页 ========== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    padding: 0 20px;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.title-line {
+    background: linear-gradient(135deg, #fff 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title-heart {
+    color: var(--primary);
+    font-size: 1.2em;
+    animation: heartBeat 1s ease-in-out infinite;
+    display: inline-block;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-muted);
+    margin-bottom: 50px;
+    font-weight: 300;
+}
+
+.hero-couple {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.couple-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid transparent;
+    background: var(--gradient-1) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    position: relative;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+}
+
+.couple-connect {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.connect-line {
+    width: 40px;
+    height: 2px;
+    background: var(--gradient-1);
+    border-radius: 2px;
+}
+
+.connect-heart {
+    font-size: 28px;
+    color: var(--primary);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: var(--gradient-1);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+}
+
+.btn-arrow {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.hero-scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.scroll-line {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--primary), transparent);
+    animation: scrollHint 2s ease-in-out infinite;
+}
+
+/* ========== 通用 Section ========== */
+section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* ========== 恋爱计时器 ========== */
+.counter-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.counter-container {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 50px 30px;
+    text-align: center;
+}
+
+.counter-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.counter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 100px;
+}
+
+.counter-number {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Noto Sans SC', monospace;
+    line-height: 1;
+}
+
+.counter-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.counter-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.counter-date label {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.date-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.date-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 107, 157, 0.3);
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.counter-save-btn {
+    padding: 10px 25px;
+    background: var(--gradient-1);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.counter-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+}
+
+/* 里程碑 */
+.milestone-container h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+}
+
+.milestone-list {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    transition: var(--transition);
+    opacity: 0.5;
+}
+
+.milestone-item.reached {
+    opacity: 1;
+    background: rgba(255, 107, 157, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+}
+
+.milestone-item.reached .milestone-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.milestone-icon {
+    font-size: 20px;
+}
+
+.milestone-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ========== 照片墙 ========== */
+.gallery-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-upload {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 35px;
+    background: var(--gradient-1);
+    color: #fff;
+    border-radius: 50px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
+    font-weight: 500;
+}
+
+.upload-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
+}
+
+.upload-icon {
+    font-size: 20px;
+}
+
+.upload-hint {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(255, 107, 157, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-item .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.gallery-item:hover .delete-btn {
+    opacity: 1;
+}
+
+.gallery-item .delete-btn:hover {
+    background: rgba(255, 0, 0, 0.7);
+}
+
+.gallery-item.drag-over {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
+    transform: scale(1.05);
+}
+
+.gallery-item[draggable="true"] {
+    cursor: grab;
+}
+
+.gallery-item[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+/* 占位卡片 */
+.placeholder-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-light);
+}
+
+.placeholder-icon {
+    font-size: 40px;
+    opacity: 0.6;
+}
+
+.placeholder-text {
+    font-size: 14px;
+}
+
+/* ========== 时光轴 ========== */
+.timeline-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.timeline-container {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 3px;
+    opacity: 0.5;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 30px 0;
+    width: 50%;
+    padding-right: 50px;
+    text-align: right;
+}
+
+.timeline-item:nth-child(even) {
+    margin-left: 50%;
+    padding-right: 0;
+    padding-left: 50px;
+    text-align: left;
+}
+
+.timeline-dot {
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 15px rgba(255, 107, 157, 0.5);
+    z-index: 2;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    right: auto;
+    left: -8px;
+}
+
+.timeline-date {
+    font-size: 13px;
+    color: var(--primary-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.timeline-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    padding: 25px;
+    transition: var(--transition);
+}
+
+.timeline-content:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+}
+
+.timeline-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.timeline-content p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.timeline-add {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.add-memory-btn {
+    padding: 14px 35px;
+    background: transparent;
+    border: 2px dashed var(--primary);
+    color: var(--primary-light);
+    border-radius: 50px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-memory-btn:hover {
+    background: rgba(255, 107, 157, 0.1);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ========== 甜蜜留言板 ========== */
+.messages-section {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.message-form {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.message-input-group {
+    margin-bottom: 15px;
+}
+
+.message-input,
+.message-textarea,
+.message-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: var(--transition);
+    font-family: inherit;
+    resize: vertical;
+}
+
+.message-input:focus,
+.message-textarea:focus,
+.message-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 107, 157, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.message-input::placeholder,
+.message-textarea::placeholder {
+    color: var(--text-light);
+}
+
+.message-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+.message-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 35px;
+    background: var(--gradient-1);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.message-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+}
+
+.btn-heart {
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message-item {
+    display: flex;
+    gap: 15px;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: var(--transition);
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.message-item:hover {
+    background: var(--bg-card-hover);
+    transform: translateX(5px);
+}
+
+.message-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 107, 157, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.message-body {
+    flex: 1;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.message-author {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--primary-light);
+}
+
+.message-mood {
+    font-size: 16px;
+}
+
+.message-content {
+    color: var(--text-main);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* ========== 底部 ========== */
+.footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-heart {
+    font-size: 40px;
+    color: var(--primary);
+    animation: heartBeat 1.5s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+.footer-text {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.footer-sub {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* ========== 模态框 ========== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.modal-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-glow);
+}
+
+.modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+/* ========== 音乐控制 ========== */
+.music-control {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+    transition: var(--transition);
+}
+
+.music-control:hover {
+    transform: scale(1.1);
+}
+
+.music-icon {
+    font-size: 22px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.music-control.playing .music-icon {
+    animation: spin 4s linear infinite;
+}
+
+/* ========== 动画 ========== */
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+@keyframes scrollHint {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(5deg); }
+    66% { transform: translateY(5px) rotate(-5deg); }
+}
+
+/* ========== 今日甜蜜 ========== */
+.daily-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.daily-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.daily-card {
+    position: relative;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 50px 40px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.daily-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255, 107, 157, 0.08) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite;
+}
+
+.daily-quote-mark {
+    font-size: 80px;
+    color: var(--primary);
+    opacity: 0.3;
+    line-height: 0.5;
+    margin-bottom: 20px;
+    font-family: Georgia, serif;
+}
+
+.daily-quote {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 300;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.daily-author {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.daily-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.daily-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-main);
+    border-radius: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.daily-btn:hover {
+    background: rgba(255, 107, 157, 0.15);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* 日历 */
+.daily-calendar {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+}
+
+.calendar-header {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary-light);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.cal-day-header {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-light);
+    padding: 5px 0;
+    font-weight: 500;
+}
+
+.cal-day {
+    text-align: center;
+    padding: 8px 0;
+    font-size: 13px;
+    border-radius: 8px;
+    cursor: default;
+    transition: var(--transition);
+    position: relative;
+}
+
+.cal-day:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cal-day.today {
+    background: var(--gradient-1);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(255, 107, 157, 0.3);
+}
+
+.cal-day.special {
+    background: rgba(160, 108, 213, 0.2);
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+.cal-day.special::after {
+    content: '♥';
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: var(--primary);
+}
+
+.cal-day.empty {
+    visibility: hidden;
+}
+
+.calendar-footer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 12px;
+    color: var(--text-light);
+    justify-content: center;
+}
+
+.calendar-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.today-dot {
+    background: var(--primary);
+}
+
+.special-dot {
+    background: var(--secondary);
+}
+
+/* ========== 爱情宣言 ========== */
+.vows-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.vows-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.vow-card {
+    flex: 1;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 40px 30px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.vow-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-card);
+}
+
+.vow-card.his-vow {
+    border-top: 3px solid var(--secondary);
+}
+
+.vow-card.her-vow {
+    border-top: 3px solid var(--primary);
+}
+
+.vow-avatar {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.vow-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--text-main);
+}
+
+.vow-content {
+    min-height: 120px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-align: left;
+    transition: var(--transition);
+    white-space: pre-wrap;
+}
+
+.vow-content:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.vow-content:empty::before {
+    content: attr(data-placeholder);
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.vow-save {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: var(--gradient-1);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.vow-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+}
+
+.vow-heart-connect {
+    font-size: 40px;
+    color: var(--primary);
+    animation: heartBeat 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(26, 10, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 20px;
+        gap: 5px;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .counter-display {
+        gap: 10px;
+    }
+
+    .counter-item {
+        min-width: 70px;
+    }
+
+    .timeline-container::before {
+        left: 20px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(even) {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 50px;
+        padding-right: 0;
+        text-align: left;
+    }
+
+    .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot {
+        left: 12px;
+        right: auto;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+
+    .hero-couple {
+        gap: 10px;
+    }
+
+    .couple-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .connect-line {
+        width: 20px;
+    }
+
+    .music-control {
+        bottom: 20px;
+        right: 20px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .daily-container {
+        grid-template-columns: 1fr;
+    }
+
+    .vows-container {
+        flex-direction: column;
+    }
+
+    .vow-heart-connect {
+        transform: rotate(90deg);
+    }
+}
+
+/* ========== 滚动条美化 ========== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-light), var(--secondary));
+}
